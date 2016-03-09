@@ -3,11 +3,10 @@ package carwash;
 
 import sim.SimEvent;
 
-import java.util.ArrayList;
 
-public class CarWashEvent implements SimEvent {
+public class CWEvent implements SimEvent {
 	
-	CarWashState state;
+	CWState state;
 	private double time = 0;
 	private int id = 0;
 	private int action = 1; //Default arrive
@@ -25,7 +24,7 @@ public class CarWashEvent implements SimEvent {
 	private boolean fast = false;
 	private boolean slow = false;
 
-	public CarWashEvent(double t, int id, CarWashState state){
+	public CWEvent(double t, int id, CWState state){
 		time = t;
 		state.setPreviousEventTime(t);
 		this.state = state;
@@ -71,6 +70,7 @@ public class CarWashEvent implements SimEvent {
 			state.setEvent(action);
 			state.changeFastWashers(-1);
 			time += state.getFastRandom();
+			//TODO WHAT THE FUCK
 			state.carWashQueue.add(time); //Tiden f�r leave
 			state.carWashQueue.add(1.0);
 			action = leave;

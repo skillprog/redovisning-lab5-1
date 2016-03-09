@@ -1,7 +1,5 @@
 package sim;
 
-import carwash.CarWashEvent;
-
 public class Simulator {
 	SimState simState;
 	EventQueue eventQueue;

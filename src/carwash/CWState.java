@@ -8,7 +8,7 @@ import random.UniformRandomStream;
 import sim.SimEvent;
 import sim.SimState;
 
-public class CarWashState extends SimState {
+public class CWState extends SimState {
 	
 	private double lambda = 1.5;
 	private double maxSimTime = 15; //Best�m n�r programmet ska avsluta
@@ -40,7 +40,7 @@ public class CarWashState extends SimState {
 	private ExponentialRandomStream expoRandom;
 
 
-	public CarWashState(int fastWashers, int slowWashers ,int maxQueueSize){
+	public CWState(int fastWashers, int slowWashers , int maxQueueSize){
 		this.fastWashers = fastWashers;
 		this.slowWashers = slowWashers;
 		this.maxQueue = maxQueueSize;
@@ -49,9 +49,10 @@ public class CarWashState extends SimState {
 		this.expoRandom = new ExponentialRandomStream(lambda,seed);
 	}
 
+	//TODO can we refactor this?
 	public void sort(){ //Kr�vs ifall en carId I k�n avslutas f�re ett carId tidigare i k�n. �ndrar positionen s� den blir korrekt
 		if(carWashQueue.size() > 2){
-			for(int i = 0; i< carWashQueue.size()-2; i += 2){ //byter plats s� den st�rsta tiden hamnar l�ngst bak
+			for(int i = 0; i < carWashQueue.size()-2; i += 2){ //byter plats s� den st�rsta tiden hamnar l�ngst bak
 				if(carWashQueue.get(i) > carWashQueue.get(i+2)) {
 					Collections.swap(carWashQueue, i, i+2);
 					Collections.swap(carWashQueue, i+1, i+3); //oj�mna index h�ller koll p� snabb/l�ngsam tv�tt
@@ -59,6 +60,7 @@ public class CarWashState extends SimState {
 			}
 		}	
 	}
+
 	public double getMaxTime(){
 		return maxSimTime;
 	}
@@ -216,7 +218,7 @@ public class CarWashState extends SimState {
 	@Override
 	public ArrayList<SimEvent> addInSequence(ArrayList<SimEvent> carWashEventList){
 		double time = this.getPreviousEventTime()+this.getExpoRandom();
-		CarWashEvent e = new CarWashEvent(time, counter, this);
+		CWEvent e = new CWEvent(time, counter, this);
 		carWashEventList.add(e);
 		counter++;
 		return carWashEventList;
