@@ -5,7 +5,7 @@ import sim.SimEvent;
 
 import java.util.ArrayList;
 
-public class CarWashEvent {
+public class CarWashEvent implements SimEvent {
 	
 	CarWashState state;
 	private double time = 0;

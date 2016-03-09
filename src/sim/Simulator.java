@@ -7,7 +7,7 @@ public class Simulator {
 	EventQueue eventQueue;
 	SimView simView;
 
-	public Simulator(SimState simState, SimView simView, CarWashEvent startEvent){
+	public Simulator(SimState simState, SimView simView, SimEvent startEvent){
 		this.simState = simState;
 		this.eventQueue = new EventQueue(simState, startEvent);
 		this.simView = simView;
@@ -23,7 +23,7 @@ public class Simulator {
 
 		do{
 			this.eventQueue.loop();
-		}while(!eventQueue.carWashEventList.get(0).getStop());
+		}while(!eventQueue.eventList.get(0).getStop());
 
 	}
 }

@@ -11,7 +11,7 @@ public class MainSim {
 		SimState carWashState = new CarWashState(2, 4, 7);
 		SimView carWashView = new CarWashView(carWashState);
 		CarWashEvent startEvent = new CarWashEvent(0, 0, (CarWashState) carWashState);
-		Simulator carWashSim = new Simulator(carWashState, carWashView, startEvent);
+		Simulator carWashSim = new Simulator(carWashState, carWashView,  startEvent);
 		carWashSim.start();
 
 	}

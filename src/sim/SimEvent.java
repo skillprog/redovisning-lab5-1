@@ -5,4 +5,11 @@ package sim;
  */
 public interface SimEvent {
 
+    void execute();
+
+    double getTime();
+
+    boolean getRemove();
+
+    boolean getStop();
 }
