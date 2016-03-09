@@ -61,9 +61,10 @@ public class CWEvent implements SimEvent {
 		stopping = true;
 	}
 	
-	private void Arrival(){
-		idle(); //R�knar samman maskinernas idle time
-		state.setQueueTime(time); //R�knar samman k�tiderna enligt pdf exempel... fast den r�knar �ven rejected cars..
+	private void Arrival(){ //carWashQueue
+		double[] saveLeaveTime = new double[2];
+		idle();
+		state.setQueueTime(time);
 		if(state.getFastWashers() > 0){
 			state.setSimulationTime(time);
 			state.setCarId(carId);
@@ -72,8 +73,9 @@ public class CWEvent implements SimEvent {
 			time += state.getFastRandom();
 			//TODO add as a list
 			// [time, 1.0]
-			state.carWashQueue.add(time); //Tiden f�r hhhhhhhleave
-			state.carWashQueue.add(1.0);
+			saveLeaveTime[0] = time;
+			saveLeaveTime[1] = 1;
+			state.carWashQueue.add(saveLeaveTime);
 			action = LEAVE;
 			fast = true;
 			
@@ -84,36 +86,37 @@ public class CWEvent implements SimEvent {
 			state.setEvent(action);
 			state.changeSlowWashers(-1);
 			time += state.getSlowRandom();
-			state.carWashQueue.add(time);
-			state.carWashQueue.add(2.0);
+			saveLeaveTime[0] = time;
+			saveLeaveTime[1] = 2;
+			state.carWashQueue.add(saveLeaveTime);
 			action = LEAVE;
 			slow = true;
 			
 		}
 		else if(state.getQueueSize() < state.getMaxQueueSize()){
 			double t = time; //Spara ARRIVE tiden
-			double wash = state.carWashQueue.get(1); //spara tv�tten
+			double wash = state.carWashQueue.get(0)[1]; //spara tv�tten
 			state.setSimulationTime(time);
 			state.setCarId(carId);
 			state.setEvent(action); //S�tter event arrival (Updaterar observer i view)
 			
-			if(state.carWashQueue.get(1) == 1){
+			if(wash == 1){
 				time += state.getFastRandom();	//tiden f�r att tv�ttas l�ggs till
-				time += (state.carWashQueue.get(0) - t);
+				time += (state.carWashQueue.get(0)[0] - t);
 		
 				state.carWashQueue.remove(0);
-				state.carWashQueue.remove(0);
-				state.carWashQueue.add(time);
-				state.carWashQueue.add(1.0);
+				saveLeaveTime[0] = time;
+				saveLeaveTime[1] = 1;
+				state.carWashQueue.add(saveLeaveTime);
 			}
-			else if(state.carWashQueue.get(1) == 2){
+			else if(wash == 2){
 				time += state.getSlowRandom();
-				time += (state.carWashQueue.get(0) - t); // v�ntetiden f�r n�sta maskin l�ggs till
-				state.carWashQueue.remove(0);
-				state.carWashQueue.remove(0);
-				
-				state.carWashQueue.add(time);
-				state.carWashQueue.add(2.0);
+				time += (state.carWashQueue.get(0)[0] - t); // v�ntetiden f�r n�sta maskin l�ggs till
+							
+				state.carWashQueue.remove(0);	
+				saveLeaveTime[0] = time;
+				saveLeaveTime[1] = 2;
+				state.carWashQueue.add(saveLeaveTime);
 			}			
 			state.setQueueSize(1);
 			action = LEAVE;

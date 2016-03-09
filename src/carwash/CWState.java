@@ -28,7 +28,7 @@ public class CWState extends SimState {
 	private double queueTime = 0;
 	private double lastQueueTime = 0;
 	
-	public ArrayList<Double> carWashQueue = new ArrayList<>();
+	public ArrayList<double[]> carWashQueue = new ArrayList<double[]>();
 	
 	private long seed = 1234;
 	private double lowerFast = 2.8;
@@ -52,14 +52,7 @@ public class CWState extends SimState {
 
 	//TODO can we refactor this?
 	public void sort(){ //Kr�vs ifall en carId I k�n avslutas f�re ett carId tidigare i k�n. �ndrar positionen s� den blir korrekt
-		if(carWashQueue.size() > 2){
-			for(int i = 0; i < carWashQueue.size()-2; i += 2){ //byter plats s� den st�rsta tiden hamnar l�ngst bak
-				if(carWashQueue.get(i) > carWashQueue.get(i+2)) {
-					Collections.swap(carWashQueue, i, i+2);
-					Collections.swap(carWashQueue, i+1, i+3); //oj�mna index h�ller koll p� snabb/l�ngsam tv�tt
-				}
-			}
-		}	
+		carWashQueue.sort((e1, e2) -> Double.compare(e1[0], e2[0]));	
 	}
 
 	public double getMaxTime(){
