@@ -19,7 +19,8 @@ public class CWEvent implements SimEvent {
 	private boolean stopping = false;
 	private boolean removing = false;
 	
-	//Anv�nds i LEAVE() kollar om bilen �kte fr�n snabb eller l�ngsam tv�tt.
+	//Anv�nds i LEAVE() kollar om bilen �kte fr�n snabb eller l�ngsam tvät
+
 	private boolean fast = false;
 	private boolean slow = false;
 
