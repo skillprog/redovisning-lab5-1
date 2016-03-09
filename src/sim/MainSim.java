@@ -14,6 +14,5 @@ public class MainSim {
 		Simulator carWashSim = new Simulator(carWashState, carWashView,  startEvent);
 		carWashSim.start();
 
-
 	}
 }
