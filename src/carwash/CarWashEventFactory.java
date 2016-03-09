@@ -1,7 +1,7 @@
 package carwash;
 
-import sim.SimEvent;
 import sim.SimEventFactory;
+import sim.SimState;
 
 /**
  * Created by emilaasa on 09/03/16.

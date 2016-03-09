@@ -1,14 +1,17 @@
 package carwash;
 
-import carwash.CarWashState;
 
-public class Event {
+import sim.SimEvent;
+
+import java.util.ArrayList;
+
+public class CarWashEvent {
 	
 	CarWashState state;
 	private double time = 0;
 	private int id = 0;
 	private int action = 1; //Default arrive
-	
+
 	//�r olika actions
 	private int start = 0;
 	private int arrive = 1;
@@ -22,7 +25,7 @@ public class Event {
 	private boolean fast = false;
 	private boolean slow = false;
 
-	public Event(double t, int id, CarWashState state){
+	public CarWashEvent(double t, int id, CarWashState state){
 		time = t;
 		state.setPreviousEventTime(t);
 		this.state = state;

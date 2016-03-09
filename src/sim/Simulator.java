@@ -1,15 +1,15 @@
 package sim;
 
-import carwash.SimState;
+import carwash.CarWashEvent;
 
 public class Simulator {
 	SimState simState;
 	EventQueue eventQueue;
 	SimView simView;
 
-	public Simulator(SimState simState, SimView simView){
+	public Simulator(SimState simState, SimView simView, CarWashEvent startEvent){
 		this.simState = simState;
-		this.eventQueue = new EventQueue(simState);
+		this.eventQueue = new EventQueue(simState, startEvent);
 		this.simView = simView;
 		setUp();
 		}
@@ -20,9 +20,10 @@ public class Simulator {
 	}
 
 	public void start(){
-	while(!eventQueue.eventList.get(0).getStop()){
-		this.eventQueue.loop();
-	}
+
+		do{
+			this.eventQueue.loop();
+		}while(!eventQueue.carWashEventList.get(0).getStop());
 
 	}
 }

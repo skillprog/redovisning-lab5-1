@@ -1,7 +1,5 @@
 package sim;
 
-import carwash.SimState;
-
 /**
  * Created by emilaasa on 09/03/16.
  */

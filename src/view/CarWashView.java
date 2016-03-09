@@ -2,7 +2,7 @@ package view;
 
 
 import carwash.CarWashState;
-import carwash.SimState;
+import sim.SimState;
 import sim.SimView;
 
 import java.util.Observable;
@@ -56,7 +56,7 @@ public class CarWashView extends SimView {
         String maxQueueSize = String.format("%s%d %n", "Max Queue Size: ", this.carWashState.getMaxQueueSize());
 
         String columnHeadersShort = String.format("%-8s   %-8s    %-8s    %-8s  %-8s",
-                                                  "Time", "Fast", "Slow", "Id", "Event");
+                                                  "Time", "Fast", "Slow", "Id", "CarWashEvent");
 
         String columnHeadersLong = String.format("%-16s      %-16s        %-16s        %-16s %n",
                                                  "IdleTime", "QueueTime", "QueueSize", "Rejected");

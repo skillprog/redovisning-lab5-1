@@ -5,8 +5,9 @@ import java.util.Collections;
 
 import random.ExponentialRandomStream;
 import random.UniformRandomStream;
+import sim.SimState;
 
-public class CarWashState extends SimState{
+public class CarWashState extends SimState {
 	
 	private double lambda = 1.5;
 	private double maxSimTime = 15; //Best�m n�r programmet ska avsluta
@@ -211,4 +212,15 @@ public class CarWashState extends SimState{
 
 		slowWashers += x;
 	}
+	private int counter = 0;
+
+	@Override
+	public ArrayList<CarWashEvent> addInSequence(ArrayList<CarWashEvent> carWashEventList){
+		double time = this.getPreviousEventTime()+this.getExpoRandom();
+		CarWashEvent e = new CarWashEvent(time, counter, this);
+		carWashEventList.add(e);
+		counter++;
+		return carWashEventList;
+	}
+
 }

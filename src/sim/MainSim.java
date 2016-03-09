@@ -1,7 +1,7 @@
 package sim;
 
+import carwash.CarWashEvent;
 import carwash.CarWashState;
-import carwash.SimState;
 import view.CarWashView;
 
 public class MainSim {
@@ -10,8 +10,8 @@ public class MainSim {
 
 		SimState carWashState = new CarWashState(2, 4, 7);
 		SimView carWashView = new CarWashView(carWashState);
-		Simulator carWashSim = new Simulator(carWashState, carWashView);
-
+		CarWashEvent startEvent = new CarWashEvent(0, 0, (CarWashState) carWashState);
+		Simulator carWashSim = new Simulator(carWashState, carWashView, startEvent);
 		carWashSim.start();
 
 	}

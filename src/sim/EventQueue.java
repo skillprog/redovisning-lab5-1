@@ -1,44 +1,42 @@
 package sim;
 
 import java.util.ArrayList;
+
+import carwash.CarWashEvent;
 import carwash.CarWashState;
-import carwash.SimState;
-import carwash.Event;
 
 public class EventQueue {
-	public ArrayList<Event> eventList = new ArrayList<>();
-	private int counter = 0;
+	public ArrayList<CarWashEvent> carWashEventList;
 	SimState state;
+	int counter = 0;
 	
-	public EventQueue(SimState state){
-		
-		this.state =  state;
-		Event e = new Event(0, 0, (CarWashState) state);
-		eventList.add(e);
-		
+	public EventQueue(SimState state, CarWashEvent startEvent){
+		this.state = state;
+		this.carWashEventList = new ArrayList<>();
+		carWashEventList.add(startEvent);
 	}
 	
 	public void loop(){
-		addInSequence();
+		carWashEventList = state.addInSequence(carWashEventList);
 		sort();
-		eventList.get(0).execute();
+		carWashEventList.get(0).execute();
 		shift();
 	}
 	
-	private void addInSequence(){			
+	private void addInSequence(){
 		double time = ((CarWashState) state).getPreviousEventTime()+((CarWashState) state).getExpoRandom();
-		Event e = new Event(time, counter, (CarWashState) state);
-		eventList.add(e);
+		CarWashEvent e = new CarWashEvent(time, counter, (CarWashState) state);
+		carWashEventList.add(e);
 		counter++;
 	}
 	
 	private void sort(){
-		eventList.sort((e1, e2) -> Double.compare(e1.getTime(), e2.getTime()));
+		carWashEventList.sort((e1, e2) -> Double.compare(e1.getTime(), e2.getTime()));
 	}
 	
 	private void shift(){
-		if(eventList.get(0).getRemove()){
-			eventList.remove(0);
+		if(carWashEventList.get(0).getRemove()){
+			carWashEventList.remove(0);
 		}
 	}
 }
