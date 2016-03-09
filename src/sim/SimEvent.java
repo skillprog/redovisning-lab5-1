@@ -1,8 +1,10 @@
+
 package sim;
 
 /**
- * Created by emilaasa on 09/03/16.
+ * SimEvent calls execute(), getTime(), getRemove() and getSTOP.
  */
+
 public interface SimEvent {
 
     void execute();

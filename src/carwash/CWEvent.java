@@ -3,7 +3,9 @@ package carwash;
 
 import sim.SimEvent;
 
-
+/**
+ * CWEvent creates the different events that can occur.
+ */
 public class CWEvent implements SimEvent {
 	
 	CWState state;
@@ -24,6 +26,12 @@ public class CWEvent implements SimEvent {
 	private boolean fast = false;
 	private boolean slow = false;
 
+	/**
+	 * the constructor CWEvent
+	 * @param time
+	 * @param carId
+	 * @param state
+     */
 	public CWEvent(double time, int carId, CWState state){
 		this.time = time;
 		state.setPreviousEventTime(time);

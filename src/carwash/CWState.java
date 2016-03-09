@@ -130,7 +130,6 @@ public class CWState extends SimState {
 		return carId;
 	}
 
-
 	public double getMeanQueue(){
 		//TODO
 		return getQueueTime()/19; //Var i helvete kommer 19 ifr�n? Har h�kan gjort fel?
