@@ -16,6 +16,7 @@ public class CWState extends SimState {
 	private int fastWashers = 0;
 	private int slowWashers = 0;
 	private int maxQueue = 0;
+
 	private int queueSize = 0;
 	private int rejectedCars = 0;
 	private double idleTime = 0;

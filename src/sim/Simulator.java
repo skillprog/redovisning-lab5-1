@@ -21,7 +21,7 @@ public class Simulator {
 
 		do{
 			this.eventQueue.loop();
-		}while(!eventQueue.eventList.get(0).getStop());
+		}while(!eventQueue.eventList.get(0).getSTOP());
 
 	}
 }

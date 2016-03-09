@@ -11,5 +11,5 @@ public interface SimEvent {
 
     boolean getRemove();
 
-    boolean getStop();
+    boolean getSTOP();
 }

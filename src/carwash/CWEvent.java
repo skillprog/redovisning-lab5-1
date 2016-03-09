@@ -8,27 +8,26 @@ public class CWEvent implements SimEvent {
 	
 	CWState state;
 	private double time = 0;
-	private int id = 0;
-	private int action = 1; //Default arrive
+	private int carId = 0;
+	private int action = 1; //Default ARRIVE
 
-	//�r olika actions
-	private int start = 0;
-	private int arrive = 1;
-	private int leave = 2;
-	private int stop = 3;
+	private int START = 0;
+	private int ARRIVE = 1;
+	private int LEAVE = 2;
+	private int STOP = 3;
 	
 	private boolean stopping = false;
 	private boolean removing = false;
 	
-	//Anv�nds i leave() kollar om bilen �kte fr�n snabb eller l�ngsam tv�tt.
+	//Anv�nds i LEAVE() kollar om bilen �kte fr�n snabb eller l�ngsam tv�tt.
 	private boolean fast = false;
 	private boolean slow = false;
 
-	public CWEvent(double t, int id, CWState state){
-		time = t;
-		state.setPreviousEventTime(t);
+	public CWEvent(double time, int carId, CWState state){
+		this.time = time;
+		state.setPreviousEventTime(time);
 		this.state = state;
-		this.id = id;
+		this.carId = carId;
 	}
 	
 	public void execute(){
@@ -38,16 +37,16 @@ public class CWEvent implements SimEvent {
 		else if(time >= state.getMaxTime()){
 			stop();
 		}
-		else if(action == arrive){
+		else if(action == ARRIVE){
 			Arrival();
-		}else if(action == leave){
+		}else if(action == LEAVE){
 			Leave();
 		}
 	}
 	
 	private void start(){
 		idle();
-		action = start;
+		action = START;
 		state.setEvent(action);//Uppdaterar i carwashview
 		removing = true;
 	}
@@ -55,7 +54,7 @@ public class CWEvent implements SimEvent {
 	private void stop(){
 		idle();
 		state.setQueueTime(state.getMaxTime());
-		action = stop;
+		action = STOP;
 		state.setSimulationTime(state.getMaxTime());
 		state.setEvent(action);
 		stopping = true;
@@ -66,34 +65,35 @@ public class CWEvent implements SimEvent {
 		state.setQueueTime(time); //R�knar samman k�tiderna enligt pdf exempel... fast den r�knar �ven rejected cars..
 		if(state.getFastWashers() > 0){
 			state.setSimulationTime(time);
-			state.setCarId(id);
+			state.setCarId(carId);
 			state.setEvent(action);
 			state.changeFastWashers(-1);
 			time += state.getFastRandom();
-			//TODO WHAT THE FUCK
-			state.carWashQueue.add(time); //Tiden f�r leave
+			//TODO add as a list
+			// [time, 1.0]
+			state.carWashQueue.add(time); //Tiden f�r hhhhhhhleave
 			state.carWashQueue.add(1.0);
-			action = leave;
+			action = LEAVE;
 			fast = true;
 			
 		}
 		else if(state.getSlowWashers() > 0){
 			state.setSimulationTime(time);
-			state.setCarId(id);
+			state.setCarId(carId);
 			state.setEvent(action);
 			state.changeSlowWashers(-1);
 			time += state.getSlowRandom();
 			state.carWashQueue.add(time);
 			state.carWashQueue.add(2.0);
-			action = leave;
+			action = LEAVE;
 			slow = true;
 			
 		}
 		else if(state.getQueueSize() < state.getMaxQueueSize()){
-			double t = time; //Spara arrive tiden
+			double t = time; //Spara ARRIVE tiden
 			double wash = state.carWashQueue.get(1); //spara tv�tten
 			state.setSimulationTime(time);
-			state.setCarId(id);
+			state.setCarId(carId);
 			state.setEvent(action); //S�tter event arrival (Updaterar observer i view)
 			
 			if(state.carWashQueue.get(1) == 1){
@@ -115,7 +115,7 @@ public class CWEvent implements SimEvent {
 				state.carWashQueue.add(2.0);
 			}			
 			state.setQueueSize(1);
-			action = leave;
+			action = LEAVE;
 			
 			if(wash == 1){
 				fast = true;
@@ -126,7 +126,7 @@ public class CWEvent implements SimEvent {
 		}
 		else{
 			state.setSimulationTime(time);
-			state.setCarId(id);
+			state.setCarId(carId);
 			state.setEvent(action);
 			
 			state.setRejected(1);
@@ -144,7 +144,7 @@ public class CWEvent implements SimEvent {
 	private void Leave(){		
 		idle();
 		state.setQueueTime(time);
-		state.setCarId(id);
+		state.setCarId(carId);
 		state.setSimulationTime(time);
 		state.setEvent(action);
 		
@@ -181,7 +181,7 @@ public class CWEvent implements SimEvent {
 		return action;
 	}
 	
-	public boolean getStop(){
+	public boolean getSTOP(){
 		return stopping;
 	}
 	
