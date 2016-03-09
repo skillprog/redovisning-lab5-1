@@ -13,5 +13,7 @@ public class MainSim {
 		CWEvent startEvent = new CWEvent(0, 0, (CWState) carWashState);
 		Simulator carWashSim = new Simulator(carWashState, carWashView,  startEvent);
 		carWashSim.start();
+
+
 	}
 }
