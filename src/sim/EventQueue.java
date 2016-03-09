@@ -3,7 +3,7 @@ package sim;
 import java.util.ArrayList;
 import carwash.CarWashState;
 import carwash.SimState;
-import event.Event;
+import carwash.Event;
 
 public class EventQueue {
 	public ArrayList<Event> eventList = new ArrayList<>();
@@ -22,7 +22,7 @@ public class EventQueue {
 		addInSequence();
 		sort();
 		eventList.get(0).execute();
-		pop(); 
+		shift();
 	}
 	
 	private void addInSequence(){			
@@ -36,7 +36,7 @@ public class EventQueue {
 		eventList.sort((e1, e2) -> Double.compare(e1.getTime(), e2.getTime()));
 	}
 	
-	private void pop(){
+	private void shift(){
 		if(eventList.get(0).getRemove()){
 			eventList.remove(0);
 		}

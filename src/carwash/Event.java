@@ -1,4 +1,4 @@
-package event;
+package carwash;
 
 import carwash.CarWashState;
 
