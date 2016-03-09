@@ -19,15 +19,14 @@ public class CarWashState extends SimState{
 	private double idleTime = 0;
 	private double simulationTime = 0;
 	private String event ="";
-	private String id = "-";
-	private double lastTime = 0; //variabel med det f�reg�end arrive-tiden, anv�nds f�r att skapa n�sta arrive.
+	private String carId = "-";
+	private double previousEventTime = 0;
 	
 	private double queueTime = 0;
 	private double lastQueueTime = 0;
 	
-	public ArrayList<Double> carWashQueue = new ArrayList<Double>(); //ArrayList f�r k�n till tv�tten
+	public ArrayList<Double> carWashQueue = new ArrayList<>();
 	
-	//F�r UniformRandomStream fast/slow
 	private long seed = 1234;
 	private double lowerFast = 2.8;
 	private double upperFast = 5.6;
@@ -38,16 +37,16 @@ public class CarWashState extends SimState{
 	private UniformRandomStream slowRandom;
 	private ExponentialRandomStream expoRandom;
 
-	public CarWashState(int fast,int slow,int q){
-		fastWashers = fast;
-		slowWashers = slow;
-		maxQueue = q;
-		fastRandom = new UniformRandomStream(lowerFast,upperFast,seed);
-		slowRandom = new UniformRandomStream(lowerSlow,upperSlow,seed);
-		expoRandom = new ExponentialRandomStream(lambda,seed);
+	public CarWashState(int fastWashers, int slowWashers ,int maxQueueSize){
+		this.fastWashers = fastWashers;
+		this.slowWashers = slowWashers;
+		this.maxQueue = maxQueueSize;
+		this.fastRandom = new UniformRandomStream(lowerFast,upperFast,seed);
+		this.slowRandom = new UniformRandomStream(lowerSlow,upperSlow,seed);
+		this.expoRandom = new ExponentialRandomStream(lambda,seed);
 	}
-	
-	public void sort(){ //Kr�vs ifall en id I k�n avslutas f�re ett id tidigare i k�n. �ndrar positionen s� den blir korrekt		
+
+	public void sort(){ //Kr�vs ifall en carId I k�n avslutas f�re ett carId tidigare i k�n. �ndrar positionen s� den blir korrekt
 		if(carWashQueue.size() > 2){
 			for(int i = 0; i< carWashQueue.size()-2; i += 2){ //byter plats s� den st�rsta tiden hamnar l�ngst bak
 				if(carWashQueue.get(i) > carWashQueue.get(i+2)) {
@@ -128,8 +127,8 @@ public class CarWashState extends SimState{
 		return simulationTime;
 	}
 	
-	public String getId(){
-		return id;
+	public String getCarId(){
+		return carId;
 	}
 
 
@@ -142,12 +141,12 @@ public class CarWashState extends SimState{
 		return queueSize;
 	}
 	
-	public double getLastTime(){
-		return lastTime;
+	public double getPreviousEventTime(){
+		return previousEventTime;
 	}
 	
-	public void setLastTime(double x){
-		lastTime = x;
+	public void setPreviousEventTime(double x){
+		previousEventTime = x;
 	}
 	
 	public void setRejected(int x){
@@ -172,9 +171,9 @@ public class CarWashState extends SimState{
 		}
 	}
 	
-	public void setId(int x){
+	public void setCarId(int x){
 
-		id = ""+x;
+		carId = "" + x;
 	}
 	
 	public void setEvent(int x){
@@ -190,21 +189,23 @@ public class CarWashState extends SimState{
 		}
 		else{
 			event = "Stop";
-			id = "-";
+			carId = "-";
 		}
 		setChanged();
 		notifyObservers();
 	}
 	
-	public void setTime(double x){
+	public void setSimulationTime(double x){
 		simulationTime = x;
 	}
 	
-	public void setFastWashers(double x){
+	public void changeFastWashers(double x){
+
 		fastWashers += x;
 	}
 	
-	public void setSlowWashers(double x){
+	public void changeSlowWashers(double x){
+
 		slowWashers += x;
 	}
 }

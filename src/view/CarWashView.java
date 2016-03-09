@@ -30,7 +30,7 @@ public class CarWashView extends SimView {
         String currentTime = String.format("%2.2f \t %3s", this.carWashState.getTime(), " ");
         String fastMachinesFree = String.format("%-12s", this.carWashState.getFastWashers(), "");
         String slowMachinesFree = String.format("%d %-9s", this.carWashState.getSlowWashers(), "");
-        String carID = String.format("%-10s", this.carWashState.getId(), "");
+        String carID = String.format("%-10s", this.carWashState.getCarId(), "");
         String event = String.format("%-10s", this.carWashState.getEvent(), "");
         String idleTime = String.format("%2.2f %-17s", this.carWashState.getIdleTime(), "");
         String queueTime = String.format("%2.2f \t %-13s", this.carWashState.getQueueTime(), "");

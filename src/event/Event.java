@@ -24,7 +24,7 @@ public class Event {
 
 	public Event(double t, int id, CarWashState state){
 		time = t;
-		state.setLastTime(t);
+		state.setPreviousEventTime(t);
 		this.state = state;
 		this.id = id;
 	}
@@ -54,7 +54,7 @@ public class Event {
 		idle();
 		state.setQueueTime(state.getMaxTime());
 		action = stop;
-		state.setTime(state.getMaxTime());
+		state.setSimulationTime(state.getMaxTime());
 		state.setEvent(action);
 		stopping = true;
 	}
@@ -63,10 +63,10 @@ public class Event {
 		idle(); //R�knar samman maskinernas idle time
 		state.setQueueTime(time); //R�knar samman k�tiderna enligt pdf exempel... fast den r�knar �ven rejected cars..
 		if(state.getFastWashers() > 0){
-			state.setTime(time);
-			state.setId(id);
+			state.setSimulationTime(time);
+			state.setCarId(id);
 			state.setEvent(action);
-			state.setFastWashers(-1);
+			state.changeFastWashers(-1);
 			time += state.getFastRandom();
 			state.carWashQueue.add(time); //Tiden f�r leave
 			state.carWashQueue.add(1.0);
@@ -75,10 +75,10 @@ public class Event {
 			
 		}
 		else if(state.getSlowWashers() > 0){
-			state.setTime(time);
-			state.setId(id);
+			state.setSimulationTime(time);
+			state.setCarId(id);
 			state.setEvent(action);
-			state.setSlowWashers(-1);
+			state.changeSlowWashers(-1);
 			time += state.getSlowRandom();
 			state.carWashQueue.add(time);
 			state.carWashQueue.add(2.0);
@@ -89,8 +89,8 @@ public class Event {
 		else if(state.getQueueSize() < state.getMaxQueueSize()){
 			double t = time; //Spara arrive tiden
 			double wash = state.carWashQueue.get(1); //spara tv�tten
-			state.setTime(time);
-			state.setId(id);
+			state.setSimulationTime(time);
+			state.setCarId(id);
 			state.setEvent(action); //S�tter event arrival (Updaterar observer i view)
 			
 			if(state.carWashQueue.get(1) == 1){
@@ -122,8 +122,8 @@ public class Event {
 			}
 		}
 		else{
-			state.setTime(time);
-			state.setId(id);
+			state.setSimulationTime(time);
+			state.setCarId(id);
 			state.setEvent(action);
 			
 			state.setRejected(1);
@@ -141,8 +141,8 @@ public class Event {
 	private void Leave(){		
 		idle();
 		state.setQueueTime(time);
-		state.setId(id);
-		state.setTime(time);
+		state.setCarId(id);
+		state.setSimulationTime(time);
 		state.setEvent(action);
 		
 		if(state.getQueueSize() == 0){ //Tar bort den senaste k�andes tid och tv�tt om k�n �r tom
@@ -153,7 +153,7 @@ public class Event {
 		
 		if(fast){
 			if(state.getQueueSize() == 0){ 	//Om k�n till tv�tten �r tom s� blir tv�ttmaskinen ledig
-				state.setFastWashers(1);
+				state.changeFastWashers(1);
 			}
 			else{						//Annars s� minskas k�n med 1;
 				state.setQueueSize(-1);
@@ -161,7 +161,7 @@ public class Event {
 		}
 		else if (slow){
 			if(state.getQueueSize() == 0){	//Om k�n till tv�tten �r tom s� blir tv�ttmaskinen ledig
-				state.setSlowWashers(1);
+				state.changeSlowWashers(1);
 			}
 			else{						//Annars s� minskas k�n med 1;
 				state.setQueueSize(-1);

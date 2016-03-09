@@ -26,7 +26,7 @@ public class EventQueue {
 	}
 	
 	private void addInSequence(){			
-		double time = ((CarWashState) state).getLastTime()+((CarWashState) state).getExpoRandom();
+		double time = ((CarWashState) state).getPreviousEventTime()+((CarWashState) state).getExpoRandom();
 		Event e = new Event(time, counter, (CarWashState) state);
 		eventList.add(e);
 		counter++;
