@@ -1,22 +1,25 @@
 package sim;
 
 import event.EventQueue;
-import state.CarWashState;
 import state.SimState;
 import view.SimView;
 
 public class Simulator {
-	SimState state;
+	SimState simState;
 	EventQueue eventQueue;
 	SimView simView;
 
-	public Simulator(SimState state, SimView simView){
-		this.state = state;
-		this.eventQueue = new EventQueue(state);
+	public Simulator(SimState simState, SimView simView){
+		this.simState = simState;
+		this.eventQueue = new EventQueue(simState);
 		this.simView = simView;
-		
+		setUp();
 		}
 
+	private void setUp() {
+		this.simState.addObserver(this.simView);
+		this.simView.printHeader();
+	}
 
 	public void start(){
 	while(!eventQueue.eventList.get(0).getStop()){
