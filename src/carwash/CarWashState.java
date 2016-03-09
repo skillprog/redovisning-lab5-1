@@ -1,4 +1,4 @@
-package state;
+package carwash;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,8 +8,8 @@ import random.UniformRandomStream;
 
 public class CarWashState extends SimState{
 	
-	private double lambda = 1.5;	//Skrivlambda här
-	private double maxSimTime = 15; //Bestäm när programmet ska avsluta
+	private double lambda = 1.5;
+	private double maxSimTime = 15; //Bestï¿½m nï¿½r programmet ska avsluta
 	
 	private int fastWashers = 0;
 	private int slowWashers = 0;
@@ -18,16 +18,16 @@ public class CarWashState extends SimState{
 	private int rejectedCars = 0;
 	private double idleTime = 0;
 	private double simulationTime = 0;
-	private String event ="";			//Printas som event namn
-	private String id = "-";			//Printas som id nummer
-	private double lastTime = 0; //variabel med det föregåend arrive-tiden, används för att skapa nästa arrive.
+	private String event ="";
+	private String id = "-";
+	private double lastTime = 0; //variabel med det fï¿½regï¿½end arrive-tiden, anvï¿½nds fï¿½r att skapa nï¿½sta arrive.
 	
 	private double queueTime = 0;
 	private double lastQueueTime = 0;
 	
-	public ArrayList<Double> array = new ArrayList<Double>(); //ArrayList för kön till tvätten
+	public ArrayList<Double> carWashQueue = new ArrayList<Double>(); //ArrayList fï¿½r kï¿½n till tvï¿½tten
 	
-	//För UniformRandomStream fast/slow
+	//Fï¿½r UniformRandomStream fast/slow
 	private long seed = 1234;
 	private double lowerFast = 2.8;
 	private double upperFast = 5.6;
@@ -47,12 +47,12 @@ public class CarWashState extends SimState{
 		expoRandom = new ExponentialRandomStream(lambda,seed);
 	}
 	
-	public void sort(){ //Krävs ifall en id I kön avslutas före ett id tidigare i kön. Ändrar positionen så den blir korrekt		
-		if(array.size() > 2){
-			for(int i=0;i<array.size()-2;i += 2){ //byter plats så den största tiden hamnar längst bak
-				if(array.get(i) > array.get(i+2)) {
-					Collections.swap(array, i, i+2);
-					Collections.swap(array, i+1, i+3); //ojämna index håller koll på snabb/långsam tvätt
+	public void sort(){ //Krï¿½vs ifall en id I kï¿½n avslutas fï¿½re ett id tidigare i kï¿½n. ï¿½ndrar positionen sï¿½ den blir korrekt		
+		if(carWashQueue.size() > 2){
+			for(int i = 0; i< carWashQueue.size()-2; i += 2){ //byter plats sï¿½ den stï¿½rsta tiden hamnar lï¿½ngst bak
+				if(carWashQueue.get(i) > carWashQueue.get(i+2)) {
+					Collections.swap(carWashQueue, i, i+2);
+					Collections.swap(carWashQueue, i+1, i+3); //ojï¿½mna index hï¿½ller koll pï¿½ snabb/lï¿½ngsam tvï¿½tt
 				}
 			}
 		}	
@@ -109,13 +109,11 @@ public class CarWashState extends SimState{
 	}
 	
 	public double getFastRandom(){
-		double f = fastRandom.next();
-		return f;
+		return fastRandom.next();
 	}
 	
 	public double getSlowRandom(){
-		double f = slowRandom.next();
-		return f;
+		return  slowRandom.next();
 	}
 	
 	public double getExpoRandom(){
@@ -133,9 +131,11 @@ public class CarWashState extends SimState{
 	public String getId(){
 		return id;
 	}
-	
+
+
 	public double getMeanQueue(){
-		return getQueueTime()/19; //Var i helvete kommer 19 ifrån? Har håkan gjort fel?
+		//TODO
+		return getQueueTime()/19; //Var i helvete kommer 19 ifrï¿½n? Har hï¿½kan gjort fel?
 	}
 	
 	public int getQueueSize(){
@@ -162,7 +162,7 @@ public class CarWashState extends SimState{
 		queueSize += x;
 	}
 	
-	public void setQueueTime(double time){ //Räknar ut queueTime
+	public void setQueueTime(double time){ //Rï¿½knar ut queueTime
 		if(lastQueueTime == 0){
 			lastQueueTime = time;
 		}
@@ -173,11 +173,12 @@ public class CarWashState extends SimState{
 	}
 	
 	public void setId(int x){
+
 		id = ""+x;
 	}
 	
 	public void setEvent(int x){
-//		System.out.println("vad i helvete " + x);
+
 		if(x == 1){
 			event = "Arrive";
 		}

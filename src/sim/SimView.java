@@ -1,9 +1,6 @@
-package view;
+package sim;
 
 import java.util.*;
-
-import state.CarWashState;
-import state.SimState;
 
 public abstract class SimView implements Observer{
 

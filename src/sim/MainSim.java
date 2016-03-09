@@ -1,9 +1,8 @@
 package sim;
 
-import state.CarWashState;
-import state.SimState;
+import carwash.CarWashState;
+import carwash.SimState;
 import view.CarWashView;
-import view.SimView;
 
 public class MainSim {
 	

@@ -1,6 +1,6 @@
 package event;
 
-import state.CarWashState;
+import carwash.CarWashState;
 
 public class Event {
 	
@@ -9,7 +9,7 @@ public class Event {
 	private int id = 0;
 	private int action = 1; //Default arrive
 	
-	//Är olika actions
+	//ï¿½r olika actions
 	private int start = 0;
 	private int arrive = 1;
 	private int leave = 2;
@@ -18,7 +18,7 @@ public class Event {
 	private boolean stopping = false;
 	private boolean removing = false;
 	
-	//Används i leave() kollar om bilen åkte från snabb eller långsam tvätt.
+	//Anvï¿½nds i leave() kollar om bilen ï¿½kte frï¿½n snabb eller lï¿½ngsam tvï¿½tt.
 	private boolean fast = false;
 	private boolean slow = false;
 
@@ -60,16 +60,16 @@ public class Event {
 	}
 	
 	private void Arrival(){
-		idle(); //Räknar samman maskinernas idle time
-		state.setQueueTime(time); //Räknar samman kötiderna enligt pdf exempel... fast den räknar även rejected cars..
+		idle(); //Rï¿½knar samman maskinernas idle time
+		state.setQueueTime(time); //Rï¿½knar samman kï¿½tiderna enligt pdf exempel... fast den rï¿½knar ï¿½ven rejected cars..
 		if(state.getFastWashers() > 0){
 			state.setTime(time);
 			state.setId(id);
 			state.setEvent(action);
 			state.setFastWashers(-1);
 			time += state.getFastRandom();
-			state.array.add(time); //Tiden för leave
-			state.array.add(1.0);
+			state.carWashQueue.add(time); //Tiden fï¿½r leave
+			state.carWashQueue.add(1.0);
 			action = leave;
 			fast = true;
 			
@@ -80,36 +80,36 @@ public class Event {
 			state.setEvent(action);
 			state.setSlowWashers(-1);
 			time += state.getSlowRandom();
-			state.array.add(time);
-			state.array.add(2.0);
+			state.carWashQueue.add(time);
+			state.carWashQueue.add(2.0);
 			action = leave;
 			slow = true;
 			
 		}
 		else if(state.getQueueSize() < state.getMaxQueueSize()){
 			double t = time; //Spara arrive tiden
-			double wash = state.array.get(1); //spara tvätten
+			double wash = state.carWashQueue.get(1); //spara tvï¿½tten
 			state.setTime(time);
 			state.setId(id);
-			state.setEvent(action); //Sätter event arrival (Updaterar observer i view)
+			state.setEvent(action); //Sï¿½tter event arrival (Updaterar observer i view)
 			
-			if(state.array.get(1) == 1){
-				time += state.getFastRandom();	//tiden för att tvättas läggs till
-				time += (state.array.get(0) - t);							
+			if(state.carWashQueue.get(1) == 1){
+				time += state.getFastRandom();	//tiden fï¿½r att tvï¿½ttas lï¿½ggs till
+				time += (state.carWashQueue.get(0) - t);
 		
-				state.array.remove(0);
-				state.array.remove(0);			
-				state.array.add(time);
-				state.array.add(1.0);
+				state.carWashQueue.remove(0);
+				state.carWashQueue.remove(0);
+				state.carWashQueue.add(time);
+				state.carWashQueue.add(1.0);
 			}
-			else if(state.array.get(1) == 2){
+			else if(state.carWashQueue.get(1) == 2){
 				time += state.getSlowRandom();
-				time += (state.array.get(0) - t); // väntetiden för nästa maskin läggs till
-				state.array.remove(0);
-				state.array.remove(0);
+				time += (state.carWashQueue.get(0) - t); // vï¿½ntetiden fï¿½r nï¿½sta maskin lï¿½ggs till
+				state.carWashQueue.remove(0);
+				state.carWashQueue.remove(0);
 				
-				state.array.add(time);
-				state.array.add(2.0);
+				state.carWashQueue.add(time);
+				state.carWashQueue.add(2.0);
 			}			
 			state.setQueueSize(1);
 			action = leave;
@@ -145,25 +145,25 @@ public class Event {
 		state.setTime(time);
 		state.setEvent(action);
 		
-		if(state.getQueueSize() == 0){ //Tar bort den senaste köandes tid och tvätt om kön är tom
-			while(state.array.size() > 0){
-				state.array.remove(0);
+		if(state.getQueueSize() == 0){ //Tar bort den senaste kï¿½andes tid och tvï¿½tt om kï¿½n ï¿½r tom
+			while(state.carWashQueue.size() > 0){
+				state.carWashQueue.remove(0);
 			}
 		}
 		
 		if(fast){
-			if(state.getQueueSize() == 0){ 	//Om kön till tvätten är tom så blir tvättmaskinen ledig
+			if(state.getQueueSize() == 0){ 	//Om kï¿½n till tvï¿½tten ï¿½r tom sï¿½ blir tvï¿½ttmaskinen ledig
 				state.setFastWashers(1);
 			}
-			else{						//Annars så minskas kön med 1;
+			else{						//Annars sï¿½ minskas kï¿½n med 1;
 				state.setQueueSize(-1);
 			}
 		}
 		else if (slow){
-			if(state.getQueueSize() == 0){	//Om kön till tvätten är tom så blir tvättmaskinen ledig
+			if(state.getQueueSize() == 0){	//Om kï¿½n till tvï¿½tten ï¿½r tom sï¿½ blir tvï¿½ttmaskinen ledig
 				state.setSlowWashers(1);
 			}
-			else{						//Annars så minskas kön med 1;
+			else{						//Annars sï¿½ minskas kï¿½n med 1;
 				state.setQueueSize(-1);
 			}
 		}

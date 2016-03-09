@@ -1,17 +1,18 @@
-package event;
+package sim;
 
 import java.util.ArrayList;
-import state.CarWashState;
-import state.SimState;
+import carwash.CarWashState;
+import carwash.SimState;
+import event.Event;
 
 public class EventQueue {
-	public ArrayList<Event> eventList = new ArrayList<Event>();
+	public ArrayList<Event> eventList = new ArrayList<>();
 	private int counter = 0;
 	SimState state;
 	
 	public EventQueue(SimState state){
 		
-		this.state = (CarWashState) state;
+		this.state =  state;
 		Event e = new Event(0, 0, (CarWashState) state);
 		eventList.add(e);
 		
@@ -20,7 +21,6 @@ public class EventQueue {
 	public void loop(){
 		addInSequence();
 		sort();
-		// Förstog inte vad du menade med "den inte ska behöva veta vilken sorts event som executas"
 		eventList.get(0).execute();
 		pop(); 
 	}

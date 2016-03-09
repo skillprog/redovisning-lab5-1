@@ -1,8 +1,6 @@
 package sim;
 
-import event.EventQueue;
-import state.SimState;
-import view.SimView;
+import carwash.SimState;
 
 public class Simulator {
 	SimState simState;

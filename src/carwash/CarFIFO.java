@@ -1,6 +1,6 @@
-package state;
+package carwash;
 
-public class CarFIFO { //används inte
+public class CarFIFO { //anvï¿½nds inte
 	int counter = 0;
 	int[] array;
 	

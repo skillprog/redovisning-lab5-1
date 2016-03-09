@@ -1,12 +1,13 @@
 package view;
 
 
-import state.CarWashState;
-import state.SimState;
+import carwash.CarWashState;
+import carwash.SimState;
+import sim.SimView;
 
 import java.util.Observable;
 
-public class CarWashView extends SimView{
+public class CarWashView extends SimView {
     CarWashState carWashState;
 
     private static String dashedLine = String.format("%-32s %n", "-------------------------------------------");
