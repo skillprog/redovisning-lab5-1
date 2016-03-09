@@ -37,6 +37,8 @@ public class CarWashState extends SimState{
 	private UniformRandomStream slowRandom;
 	private ExponentialRandomStream expoRandom;
 
+	private CarWashEventFactory eventFactory;
+
 	public CarWashState(int fastWashers, int slowWashers ,int maxQueueSize){
 		this.fastWashers = fastWashers;
 		this.slowWashers = slowWashers;
@@ -44,6 +46,7 @@ public class CarWashState extends SimState{
 		this.fastRandom = new UniformRandomStream(lowerFast,upperFast,seed);
 		this.slowRandom = new UniformRandomStream(lowerSlow,upperSlow,seed);
 		this.expoRandom = new ExponentialRandomStream(lambda,seed);
+		this.eventFactory = new CarWashEventFactory();
 	}
 
 	public void sort(){ //Kr�vs ifall en carId I k�n avslutas f�re ett carId tidigare i k�n. �ndrar positionen s� den blir korrekt
