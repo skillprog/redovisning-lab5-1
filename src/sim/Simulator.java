@@ -12,11 +12,16 @@ public class Simulator {
 
 	public Simulator(SimState state, SimView simView){
 		this.state = state;
-		eventQueue = new EventQueue(state);
+		this.eventQueue = new EventQueue(state);
 		this.simView = simView;
 		
-		while(!eventQueue.eventList.get(0).getStop()){
-			eventQueue.loop();
 		}
+
+
+	public void start(){
+	while(!eventQueue.eventList.get(0).getStop()){
+		this.eventQueue.loop();
+	}
+
 	}
 }
