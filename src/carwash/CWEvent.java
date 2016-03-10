@@ -1,3 +1,7 @@
+/**
+ * the package carwash holds all classes that are specific for the carwash machine.
+ */
+
 package carwash;
 
 
@@ -27,7 +31,7 @@ public class CWEvent implements SimEvent {
 	private boolean slow = false;
 
 	/**
-	 * the constructor CWEvent
+	 * the constructor CWEvent initializes time, carID and state.
 	 * @param time
 	 * @param carId
 	 * @param state
@@ -38,7 +42,10 @@ public class CWEvent implements SimEvent {
 		this.state = state;
 		this.carId = carId;
 	}
-	
+
+	/**
+	 * execute executes the different events.
+	 */
 	public void execute(){
 		if(time == 0){
 			start();
@@ -52,14 +59,20 @@ public class CWEvent implements SimEvent {
 			Leave();
 		}
 	}
-	
+
+	/**
+	 * start sets the start event.
+	 */
 	private void start(){
 		idle();
 		action = START;
 		state.setEvent(action);//Uppdaterar i carwashview
 		removing = true;
 	}
-	
+
+	/**
+	 * stop sets the stop event.
+	 */
 	private void stop(){
 		idle();
 		state.setQueueTime(state.getMaxTime());
@@ -68,7 +81,10 @@ public class CWEvent implements SimEvent {
 		state.setEvent(action);
 		stopping = true;
 	}
-	
+
+	/**
+	 * Arrival checks what washing machine can be used at current event and whether a car needs to be placed in queue due to lack of available washing machines.
+	 */
 	private void Arrival(){ //carWashQueue
 		double[] saveLeaveTime = new double[2];
 		idle();
@@ -146,14 +162,20 @@ public class CWEvent implements SimEvent {
 		}
 		state.sort();
 	}
-	
+
+	/**
+	 * idle gets the time idle time the events.
+	 */
 	private void idle(){
 		double diff = state.getTime();
 		diff = time - diff;
 		state.setIdle(diff * (state.getFastWashers() + state.getSlowWashers()));
 	}
-	
-	private void Leave(){		
+
+	/**
+	 * Leave sets the the queuetime, carId, simulationtime and event when a car leaves.
+	 */
+	private void Leave(){
 		idle();
 		state.setQueueTime(time);
 		state.setCarId(carId);
@@ -184,19 +206,35 @@ public class CWEvent implements SimEvent {
 		}
 		removing = true;
 	}
-	
+
+	/**
+	 * getTime returns the time.
+	 * @return returns the time.
+     */
 	public double getTime(){
 		return time;
 	}
-	
+
+	/**
+	 * getAction returns the action.
+	 * @return returns the action.
+     */
 	public int getAction(){
 		return action;
 	}
-	
+
+	/**
+	 * getSTOP returns the stopping.
+	 * @return returns the stopping.
+     */
 	public boolean getSTOP(){
 		return stopping;
 	}
-	
+
+	/**
+	 * getRemove returns the removing.
+	 * @return returns the removing.
+     */
 	public boolean getRemove(){
 		return removing;
 	}

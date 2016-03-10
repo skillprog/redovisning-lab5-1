@@ -1,3 +1,7 @@
+/**
+ * the package sim holds classes that are general.
+ */
+
 package sim;
 
 import java.util.*;

@@ -1,3 +1,6 @@
+/**
+ * the package sim holds classes that are general.
+ */
 
 package sim;
 
